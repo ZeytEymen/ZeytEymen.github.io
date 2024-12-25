@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2D Kesit Modeli</title>
+    <style>
+        body { 
+            margin: 0; 
+            font-family: Arial, sans-serif; 
+            display: flex;
+            padding: 5px; 
+        }
+        .values {
+            max-width: 400px; 
+            display: flex; 
+            flex-direction: column; 
+            margin-right: 20px; /* Sağda biraz boşluk bırak */
+        }
+        label, input { 
+            margin-bottom: 5px; 
+        }
+        .form-group { 
+            display: flex; 
+            justify-content: space-between; 
+            border-bottom: 1px solid; 
+            padding: 3px; 
+            align-items: center; 
+        }
+        .form-group label { 
+            flex: 1; 
+            margin-right: 10px; 
+        }
+        .form-group input { 
+            flex: 2; 
+            max-width: 60px; 
+        }
+        button { 
+            align-self: flex-start; 
+            margin-top: 10px; 
+        }
+        #container {
+            width: 800px; /* Container genişliği */
+            height: 600px; /* Container yüksekliği */
+            border: 1px solid #ccc; /* Çerçeve */
+        }
+    </style>
+</head>
+<body>
+    <div class="values">
+        <h1>2D Kesit Modeli</h1>
+        <form id="inputForm">
+            <div class="form-group">
+                <label for="currentScale">Boyutlandırma Ölçeği (mm * ölçek = X px)</label>
+                <input type="number" id="currentScale" step="1" value="15">
+            </div>
+            <div class="form-group">
+                <label for="R2">R2 (mm)</label>
+                <input type="number" id="R2" step="0.1" value="31.5">
+            </div>
+            <div class="form-group">
+                <label for="R1">R1 (mm)</label>
+                <input type="number" id="R1" step="0.1" value="28">
+            </div>
+            <div class="form-group">
+                <label for="r2">r2 (mm)</label>
+                <input type="number" id="r2" step="0.1"  max="" value="21.5">
+            </div>
+            <div class="form-group">
+                <label for="r1">r1 (mm)</label>
+                <input type="number" id="r1"  step="0.1"value="17.5">
+            </div>
+            <div class="form-group">
+                <label for="tf">tf (mm)</label>
+                <input type="number" id="tf" step="0.1" value="4.5">
+            </div>
+            <div class="form-group">
+                <label for="go">go (mm)</label>
+                <input type="number" id="go" step="0.1" value="0.3">
+            </div>
+            <div class="form-group">
+                <label for="Ls">Ls (mm)</label>
+                <input type="number" id="Ls" step="0.1" value="18">
+            </div>
+            <div class="form-group">
+                <label for="ts">ts (mm)</label>
+                <input type="number" id="ts" step="0.1" value="5">
+            </div>
+            <button type="submit">Görüntüle</button>
+        </form>
+    </div>
+    
+    <div id="container"></div>
+
+    <script src="https://unpkg.com/konva@9/konva.min.js"></script>
+    <script>
+
+        const canvasWidth = 800;
+        const canvasHeight = 600;
+
+        const stage = new Konva.Stage({
+            container: 'container',
+            width: canvasWidth,
+            height: canvasHeight
+        });
+
+        const layer = new Konva.Layer();
+        stage.add(layer);
+
+        //Boyutları buradan alacağız
+        const dimensions = {
+            R2: 31.5,
+            R1: 28,
+            r2: 21.5,
+            r1: 17.5,
+            tf: 4.5,
+            go: 0.3,
+            Ls: 18,
+            ts: 5,
+            currentScale : 15
+        }
+
+          // Input event handlers
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener('input', (e) => {
+                const value = parseFloat(e.target.value);
+                dimensions[e.target.id] = value;
+                drawModel();
+            });
+        });
+
+        document.getElementById('inputForm').addEventListener('submit', function (e) { e.preventDefault(); drawModel();});
+        document.addEventListener('DOMContentLoaded', function () {drawModel()});
+         // mm'den piksel'e dönüşüm
+         function mmToPx(mm) {
+            return mm * dimensions.currentScale;
+        }
+
+        function drawModel() {
+            console.log('scale', dimensions.currentScale);
+            //Bir önceki çizim silinecek
+            layer.destroyChildren();
+
+             // Merkez noktası
+            const centerX = stage.width() / 2;
+            const centerY = stage.height() / 2;
+
+            //Dış Gövde
+            const outerBody = new Konva.Rect({
+                x : centerX - mmToPx(dimensions.R2 - dimensions.r1) / 2,
+                y : centerY - mmToPx(dimensions.Ls) / 2,
+                width: mmToPx(dimensions.R2 - dimensions.r1),
+                height: mmToPx(dimensions.Ls),
+                fill: '#BBBBBB'
+            });
+            
+            //Dış Gövde
+            const pointt = new Konva.Rect({
+                x : outerBody.x(),
+                y : outerBody.y(),
+                width: 100,
+                height: 100,
+                fill: 'red'
+            });
+
+            //İç Boşluk
+            const innerSpace = new Konva.Rect({
+                x : centerX - mmToPx(dimensions.R1 - dimensions.r2) / 2,
+                y : centerY - mmToPx(dimensions.Ls) / 2,
+                width : mmToPx(dimensions.R1 - dimensions.r2),
+                height : mmToPx(dimensions.Ls - dimensions.ts),
+                fill : 'white'
+            });
+
+            // Bobin
+            const coil = new Konva.Rect({
+                x : centerX - (mmToPx(dimensions.R1 - dimensions.r2) - mmToPx(1)) / 2,
+                y : centerY - (mmToPx(dimensions.Ls) - mmToPx(1)) / 2,
+                width : mmToPx(dimensions.R1 - dimensions.r2) - mmToPx(1),
+                height : mmToPx(dimensions.Ls - dimensions.ts) - mmToPx(1),
+                fill: '#ff7f27',
+                stroke: 'black',
+                strokeWidth: 5,
+                
+            });
+
+            // Kapak
+            const coverPlate = new Konva.Rect({
+                x : centerX - mmToPx(dimensions.R2 - dimensions.r1) / 2,
+                y : outerBody.y() - mmToPx(dimensions.tf) - mmToPx(dimensions.go),
+                width: mmToPx(dimensions.R2 - dimensions.r1),
+                height: mmToPx(dimensions.tf),
+                fill: '#BBBBBB' 
+            });
+
+            const lines = [
+                //coiln,I
+                {
+                    isHaveText : true, 
+                    text: 'N,I',
+                    textX: (coil.x() + (coil.width() / 2)) - (dimensions.currentScale / 2),
+                    textY: (coil.y() + (coil.height() / 2)) - (dimensions.currentScale / 2),
+                    textColor : 'black',
+                },
+                //LS
+                {
+                    points: [
+                        outerBody.x() - 10,
+                        centerY + mmToPx(dimensions.Ls) / 2,
+                        outerBody.x() - 10,
+                        centerY - mmToPx(dimensions.Ls) / 2,
+                    ],
+                    isHaveText : true, 
+                    text: 'Ls : ' + dimensions.Ls + ' mm \n',
+                    textX:outerBody.x() - 85,
+                    textY: (centerY - mmToPx(dimensions.Ls) / 2) + 10,
+                    textColor : 'red',
+                    lineColor : 'red',
+                },
+                //LS 2
+                {
+                    points: [
+                        outerBody.x() - 10,
+                        centerY - mmToPx(dimensions.Ls) / 2,
+                        outerBody.x() - 10,
+                        centerY + mmToPx(dimensions.Ls) / 2,
+                    ],
+                    isHaveText : true, 
+                    textColor : 'red',
+                    lineColor : 'red',
+                },
+                 //TS
+                {
+                    points: [
+                        outerBody.x() - 30,
+                        centerY + mmToPx(dimensions.Ls) / 2,
+                        outerBody.x() - 30,
+                        innerSpace.y() + innerSpace.height(),
+                    ],
+                    isHaveText : true, 
+                    text: 'Ts : ' + dimensions.ts + ' mm \n',
+                    textX: outerBody.x() - 98,
+                    textY: innerSpace.y() + innerSpace.height() + 10,
+                    textColor : 'blue',
+                    lineColor : 'blue'
+                },
+                //TS 2
+                {
+                    points: [
+                        outerBody.x() - 30,
+                        innerSpace.y() + innerSpace.height(),
+                        outerBody.x() - 30,
+                        centerY + mmToPx(dimensions.Ls) / 2,
+                    ],
+                    isHaveText : true, 
+                    textColor : 'blue',
+                    lineColor : 'blue'
+                },
+                //tf 1
+                {
+                    points: [
+                        coverPlate.x() - 20,
+                        coverPlate.y(),
+                        coverPlate.x() - 20,
+                        coverPlate.y() + coverPlate.height() - 2,
+
+                    ],
+                    isHaveText : true, 
+                    text: 'tf : ' + dimensions.tf + ' mm \n',
+                    textX: coverPlate.x() - 93,
+                    textY: coverPlate.y() + 10,
+                    textColor : 'green',
+                    lineColor : 'green'
+                },
+                //tf 2
+                {
+                    points: [
+                        coverPlate.x() - 20,
+                        coverPlate.y() + coverPlate.height() - 2,
+                        coverPlate.x() - 20,
+                        coverPlate.y(),
+
+                    ],
+                    isHaveText : true, 
+                    textColor : 'green',
+                    lineColor : 'green'
+                },
+                //go top 
+                {
+                    points: [
+                        coverPlate.x() - 140,
+                        coverPlate.y() + (coverPlate.height() / 2),
+                        coverPlate.x() - 140,
+                        coverPlate.y() + coverPlate.height() - 2,
+
+                    ],
+                    isHaveText : true, 
+                    textColor : 'orange',
+                    lineColor : 'orange'
+                },
+                //go bottom 
+                {
+                    points: [
+                        coverPlate.x() - 140,
+                        outerBody.y() + (coverPlate.height() / 2),
+                        coverPlate.x() - 140,
+                        outerBody.y(),
+
+                    ],
+                    isHaveText : true, 
+                    textColor : 'orange',
+                    lineColor : 'orange'
+                },
+                
+                //go text 
+                {
+                    isHaveText : true, 
+                    text: 'go',
+                    textX: coverPlate.x() - 168,
+                    textY: coverPlate.y() + coverPlate.height() - 2,
+                    textColor : 'orange',
+                },
+                //R2 arrow 
+                {
+                    points: [
+                        (coverPlate.x() + coverPlate.width()) + 100,
+                        coverPlate.y() - 60,
+                        coverPlate.x() + 2,
+                        coverPlate.y() - 60,
+
+                    ],
+                    isHaveText : true, 
+                    text: 'R2',
+                    textX: (coverPlate.x() + coverPlate.width()) + 105,
+                    textY: coverPlate.y() - 68,
+                    textColor : 'chocolate',
+                    lineColor : 'chocolate'
+                },
+                //R1 arrow 
+                {
+                    points: [
+                        (coverPlate.x() + coverPlate.width()) + 100,
+                        coverPlate.y() - 40,
+                        innerSpace.x() + 2,
+                        coverPlate.y() - 40,
+
+                    ],
+                    isHaveText : true,
+                    text: 'R1',
+                    textX: (coverPlate.x() + coverPlate.width()) + 105,
+                    textY: coverPlate.y() - 48,
+                    textColor : 'goldenrod',
+                    lineColor : 'goldenrod'
+                },
+                //r2 arrow 
+                {
+                    points: [
+                        (coverPlate.x() + coverPlate.width()) + 100,
+                        coverPlate.y() - 20,
+                        innerSpace.x() + innerSpace.width() + 2,
+                        coverPlate.y() - 20,
+
+                    ],
+                    isHaveText : true,
+                    text: 'r2',
+                    textX: (coverPlate.x() + coverPlate.width()) + 105,
+                    textY: coverPlate.y() - 28,
+                    textColor : 'purple',
+                    lineColor : 'purple'
+                },
+                //r1 arrow 
+                {
+                    points: [
+                        (coverPlate.x() + coverPlate.width()) + 100,
+                        coverPlate.y(),
+                        coverPlate.x() + coverPlate.width(),
+                        coverPlate.y(),
+
+                    ],
+                    isHaveText : true,
+                    text: 'r1',
+                    textX: (coverPlate.x() + coverPlate.width()) + 105,
+                    textY: coverPlate.y() - 8,
+                    textColor : 'red',
+                    lineColor : 'red'
+                },
+                 //outer body top limit
+                {
+                    points: [
+                        outerBody.x() + 1,
+                        outerBody.y(),
+                        outerBody.x() - 150,
+                        outerBody.y(),
+                    ],
+                    isHaveText : false,
+                    lineColor : 'black'
+                },
+                //outer body bottom limit
+                {
+                    points: [
+                        outerBody.x() + 1,
+                        centerY + mmToPx(dimensions.Ls) / 2,
+                        outerBody.x() - 70,
+                        centerY + mmToPx(dimensions.Ls) / 2,
+                    ],
+                    isHaveText : false,
+                    lineColor : 'black'
+                },
+                 //inner space bottom limit
+                {
+                    points: [
+                        innerSpace.x() + 1,
+                        innerSpace.y() + innerSpace.height(),
+                        //(centerY +  mmToPx(dimensions.Ls + dimensions.ts)) / 2,
+                        outerBody.x() - 70,
+                        //innerSpace.x() - 70 - mmToPx(dimensions.R2) + mmToPx(dimensions.R1),
+                        innerSpace.y() + innerSpace.height()
+                    ],
+                    isHaveText : false,
+                    lineColor : 'black'
+                },
+                //plate top limit
+                {
+                    points: [
+                        coverPlate.x() + 1,
+                        coverPlate.y() + 1,
+                        coverPlate.x() - 70,
+                        coverPlate.y() + 1,
+                    ],
+                    isHaveText : false,
+                    lineColor : 'black'
+                },
+                //plate bottom limit
+                {
+                    points: [
+                        coverPlate.x() + 1,
+                        coverPlate.height() + coverPlate.y() - 2,
+                        coverPlate.x() - 150,
+                        coverPlate.height() + coverPlate.y() - 2,
+                    ],
+                    isHaveText : false,
+                    lineColor : 'black'
+                },
+                //plate left limit 1
+                {
+                    points: [
+                        coverPlate.x() + 1,
+                        coverPlate.y() + 1,
+                        coverPlate.x() + 1,
+                        coverPlate.y() - 70,
+                    ],
+                    isHaveText : false,
+                    lineColor : 'black'
+                },
+                //plate left limit 2
+                {
+                    points: [
+                        innerSpace.x() - 1,
+                        innerSpace.y() + 1,
+                        innerSpace.x() - 1,
+                        coverPlate.y() - 70,
+                    ],
+                    isHaveText : false,
+                    lineColor : 'black'
+                },
+                //plate right limit 1
+                {
+                    points: [
+                        coverPlate.x() + coverPlate.width() - 1,
+                        coverPlate.y() + 1,
+                        coverPlate.x() + coverPlate.width() - 1,
+                        coverPlate.y() - 70,
+                    ],
+                    isHaveText : false,
+                    lineColor : 'black'
+                },
+                //plate right limit 2
+                {
+                    points: [
+                        innerSpace.x() + innerSpace.width() - 1,
+                        innerSpace.y() + 1,
+                        innerSpace.x() + innerSpace.width() - 1,
+                        coverPlate.y() - 70,
+                    ],
+                    isHaveText : false,
+                    lineColor : 'black'
+                },
+            ];
+
+            layer.add(outerBody);
+            layer.add(innerSpace);
+            layer.add(coil);
+            layer.add(coverPlate);
+          //  layer.add(pointt);
+            //layer.draw();
+            lines.forEach(line => {
+
+                if(line.isHaveText){
+                    layer.add(new Konva.Arrow({
+                    points: line.points,
+                    stroke: line.lineColor,
+                    strokeWidth: 1,
+                    pointerLength: 10,
+                    pointerWidth: 10,
+                    fill: line.lineColor
+                }));
+
+                    layer.add(new Konva.Text({
+                    x: line.textX,
+                    y: line.textY,
+                    text: line.text,
+                    fill: line.textColor,
+                    fontFamily: 'Calibri',
+                    fontSize: 14,
+                }));
+                }
+                else
+                {
+                    layer.add(new Konva.Line({
+                    points: line.points,
+                    stroke: line.lineColor,
+                    strokeWidth: 1,
+                    dash: [4, 2]
+                }));
+
+                }
+            });
+            
+            layer.batchDraw();
+            
+        };
+        
+        stage.on('wheel', (e) => {
+            e.evt.preventDefault();
+            const scaleBy = 1.05;
+            const oldScale = stage.scaleX();
+
+            const pointer = stage.getPointerPosition();
+            const mousePointTo = {
+                x: (pointer.x - stage.x()) / oldScale,
+                y: (pointer.y - stage.y()) / oldScale,
+            };
+
+            const newScale = e.evt.deltaY < 0 ? oldScale * scaleBy : oldScale / scaleBy;
+            stage.scale({ x: newScale, y: newScale });
+
+            const newPos = {
+                x: pointer.x - mousePointTo.x * newScale,
+                y: pointer.y - mousePointTo.y * newScale,
+            };
+            stage.position(newPos);
+            stage.batchDraw();
+        });
+
+    </script>
+</body>
+</html>
