@@ -1,0 +1,105 @@
+body,
+html {
+    margin: 0;
+    padding: 80;
+    overflow: hidden;
+    /* Sayfa genelinde scroll'u kaldır */
+}
+
+.full-height {
+    height: 100vh;
+    padding: 0;
+    /* Ekranın tamamını kaplasın */
+}
+
+.scrollable-table {
+    height: 100%;
+    /* Tablo kısmı ekran yüksekliğini kaplasın */
+    overflow-y: auto;
+    /* Sadece dikey scroll etkin */
+}
+
+#konva-container {
+    width: 100%;
+    height: 100%;
+    /* Konva.js kısmı ekranın tamamını kaplar */
+    border-left: 1px solid #ccc;
+}
+
+.table-small th,
+.table-small td {
+    padding: 2px;
+    text-align: center;
+    font-size: 13px;
+    vertical-align: middle;
+
+}
+
+td:nth-child(3) {
+    white-space: nowrap;
+    /* Satır kırılmasını engelle */
+    width: 1%;
+    font-size: 12px;
+    font-weight: bold;
+    font-style: italic;
+}
+
+td:nth-child(4) {
+    word-wrap: break-word;
+    /* Hücre içindeki metni sar */
+    word-break: break-word;
+    font-size: 12px;
+    font-style: italic;
+    width: 15%;
+}
+
+td:nth-child(1) {
+    word-wrap: break-word;
+    /* Hücre içindeki metni sar */
+    word-break: break-word;
+    font-weight: bold;
+    width: 30%;
+}
+
+td:nth-child(2) {
+    word-wrap: break-word;
+    /* Hücre içindeki metni sar */
+    word-break: break-word;
+    font-weight: bold;
+    width: 40%;
+}
+
+.table-small th {
+    text-align: center;
+}
+
+td input[type="number"] {
+    width: 100%;
+    /* Input genişliği hücre genişliğine göre ayarlanır */
+    height: 100%;
+    /* Input yüksekliği hücreyi tamamen kapsar */
+    border: 1px solid rgb(204, 0, 0);
+    /* Bootstrap görünümüne uyum sağlar */
+    padding: 0;
+    /* Ek boşluk kaldırılır */
+    box-sizing: border-box;
+    /* Padding ve border dahil genişlik ayarı */
+    text-align: center;
+    font-weight: bold;
+    border-radius: 0;
+}
+
+input[readonly] {
+    background-color: #F2F2F2;
+    /* Soluk arka plan */
+    color: #408546 !important;
+    /* Daha açık bir metin rengi */
+    cursor: not-allowed;
+    /* Readonly alanlar için uygun işaretçi */
+}
+
+/* Readonly hücre genel görünümü */
+td input[readonly] {
+    border: 1px solid #ced4da;
+    /* Varsayılan Bootstrap sınır stili */
+}

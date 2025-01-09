@@ -6,22 +6,121 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tork Hesabı</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            /* Sayfa genelinde scroll'u kaldır */
+        }
+
+        .full-height {
+            height: 100vh;
+            padding: 0;
+            /* Ekranın tamamını kaplasın */
+        }
+
+        .scrollable-table {
+            height: 100%;
+            /* Tablo kısmı ekran yüksekliğini kaplasın */
+            overflow-y: auto;
+            /* Sadece dikey scroll etkin */
+        }
+
+        #konva-container {
+            width: 100%;
+            height: 100%;
+            /* Konva.js kısmı ekranın tamamını kaplar */
+            border-left: 1px solid #ccc;
+        }
+
+        .table-small th,
+        .table-small td {
+            padding: 2px;
+            text-align: center;
+            font-size: 11px;
+            vertical-align: middle;
+
+        }
+
+        td:nth-child(3) {
+            white-space: nowrap;
+            /* Satır kırılmasını engelle */
+            width: 1%;
+            font-size: 10px;
+            font-weight: bold;
+            font-style: italic;
+        }
+
+        td:nth-child(4) {
+            word-wrap: break-word;
+            /* Hücre içindeki metni sar */
+            word-break: break-word;
+            font-size: 10px;
+            font-style: italic;
+            width: 15%;
+        }
+
+        td:nth-child(1) {
+            word-wrap: break-word;
+            /* Hücre içindeki metni sar */
+            word-break: break-word;
+            font-weight: bold;
+            width: 30%;
+        }
+
+        td:nth-child(2) {
+            word-wrap: break-word;
+            /* Hücre içindeki metni sar */
+            word-break: break-word;
+            font-weight: bold;
+            width: 40%;
+        }
+
+        .table-small th {
+            text-align: center;
+        }
+
+        td input[type="number"] {
+            width: 100%;
+            /* Input genişliği hücre genişliğine göre ayarlanır */
+            height: 100%;
+            /* Input yüksekliği hücreyi tamamen kapsar */
+            border: 1px solid black;
+            /* Bootstrap görünümüne uyum sağlar */
+            padding: 0;
+            /* Ek boşluk kaldırılır */
+            box-sizing: border-box;
+            /* Padding ve border dahil genişlik ayarı */
+            text-align: center;
+            font-weight: bold;
+            border-radius: 0;
+        }
+
+        input[readonly] {
+            background-color: #F2F2F2;
+            /* Soluk arka plan */
+            color: #408546 !important;
+            /* Daha açık bir metin rengi */
+            cursor: not-allowed;
+            /* Readonly alanlar için uygun işaretçi */
+        }
+
+        /* Readonly hücre genel görünümü */
+        td input[readonly] {
+            border: 1px solid #ced4da;
+            /* Varsayılan Bootstrap sınır stili */
+        }
+    </style>
 </head>
 
 <body>
     <div class="container-fluid full-height">
         <div class="row full-height g-0">
             <!-- Sol taraf: Tablo -->
-            <div class="col-md-6 scrollable-table">
-                <div class="row">
-                    <div class="col-md-12 bg-warning py-2">
-                        <div class="text-center">
-                            <span class="text-primary fw-bold fs-5">TORK : </span>
-                            <span class="val text-success fw-bold fs-5" id="tork">8,65</span>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-md-6 p-1 scrollable-table">
                 <div class="row">
                     <div class="col-md-6" style="padding-right: 1px !important;">
                         <table class="table table-bordered table-small">
@@ -37,140 +136,128 @@
                             <tbody>
                                 <tr>
                                     <td>Gerilim</td>
-                                    <td><input id="gerilim" type="number" step="0.01" class="form-control input-sm"  value="24"/></td>
+                                    <td><input type="number" step="0.01" class="form-control input-sm" /></td>
                                     <td colspan="2">VDC</td>
                                 </tr>
                                 <tr>
                                     <td>Oluk Doluluk Oranı</td>
-                                    <td><input id="oluk_doluluk_orani" type="number" step="0.001" class="form-control" value="0.235"/></td>
+                                    <td><input type="number" step="0.01" class="form-control" /></td>
                                     <td>%</td>
                                     <td>maks 0,25</td>
                                 </tr>
                                 <tr>
                                     <td>Tel Çapı</td>
-                                    <td><input id="tel_capi" type="number" step="0.01" class="form-control" value="0.25"/></td>
-                                    <td colspan="2" rowspan="11">mm</td>
+                                    <td><input type="number" step="0.01" class="form-control" /></td>
+                                    <td colspan="2" rowspan="10">mm</td>
                                 </tr>
                                 <tr>
-                                    <td>Bakır Kalınlığı</td>
-                                    <td><input id="copper_thickness" type="number" step="0.01" class="form-control" value="0"/></td>
+                                    <td>Copper Thickness</td>
+                                    <td><input type="number" step="0.01" class="form-control" /></td>
                                 </tr>
                                 <tr>
                                     <td>R - (tam çap)</td>
-                                    <td><input id="R" type="number" step="0.01" class="form-control" value="63"/></td>
+                                    <td><input type="number" step="0.01" class="form-control" /></td>
                                 </tr>
                                 <tr>
                                     <td>R2 - (yarıçap)</td>
-                                    <td><input id="R2" type="number" step="0.01" class="form-control" value="31.5"/></td>
+                                    <td><input type="number" step="0.01" class="form-control" /></td>
                                 </tr>
                                 <tr>
                                     <td>R1</td>
-                                    <td><input id="R1" type="number" step="0.01" class="form-control" value="28.5"/></td>
+                                    <td><input type="number" step="0.01" class="form-control" /></td>
                                 </tr>
                                 <tr>
                                     <td>r2</td>
-                                    <td><input id="r2" type="number" step="0.01" class="form-control" value="22"/></td>
+                                    <td><input type="number" step="0.01" class="form-control" /></td>
 
                                 </tr>
                                 <tr>
                                     <td>r1</td>
-                                    <td><input id="r1" type="number" step="0.01" class="form-control" value="17.5"/></td>
+                                    <td><input type="number" step="0.01" class="form-control" /></td>
                                 </tr>
                                 <tr>
                                     <td>tf</td>
-                                    <td><input id="tf" type="number" step="0.01" class="form-control" value="4.5"/></td>
+                                    <td><input type="number" step="0.01" class="form-control" /></td>
                                 </tr>
                                 <tr>
                                     <td>go</td>
-                                    <td><input id="go" type="number" step="0.01" class="form-control" value="0.3"/></td>
+                                    <td><input type="number" step="0.01" class="form-control" /></td>
                                 </tr>
                                 <tr>
                                     <td>Ls</td>
-                                    <td><input id="Ls" type="number" step="0.01" class="form-control" value="24" /></td>
+                                    <td><input type="number" step="0.01" class="form-control" /></td>
                                 </tr>
                                 <tr>
                                     <td>ts</td>
-                                    <td><input id="ts" type="number" step="0.01" class="form-control" value="4.5"/></td>
-                                </tr>
-                                <tr>
-                                    <td>Mu_r</td>
-                                    <td colspan="3"><input id="mu_r" type="number" step="0.1" class="form-control" value="120"/></td>
-                                </tr>
-                                <tr>
-                                    <td>Balata Sürtünme Katsayısı</td>
-                                    <td colspan="3"><input id="balata_surtunme_katsayi" type="number" step="0.01" class="form-control" value="0.6"/></td>
+                                    <td><input type="number" step="0.01" class="form-control" /></td>
                                 </tr>
                                 <tr>
                                     <td style="background-color: black;" colspan="4"></td>
                                 </tr>
                                 <tr>
                                     <td>Oluk Alanı</td>
-                                    <td><span class="val" id="oluk_alani">wef</span></td>
+                                    <td></td>
                                     <td colspan="2" rowspan="2">mm<sup>2</sup></td>
                                 </tr>
                                 <tr>
                                     <td>Bobin Alanı</td>
-                                    <td><span class="val" id="bobin_alani"></span></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td>Direnç</td>
-                                    <td><span class="val" id="direnc"></span></td>
+                                    <td></td>
                                     <td colspan="2">Ohm</td>
                                 </tr>
                                 <tr>
                                     <td>Akım(Adc)</td>
-                                    <td><span class="val" id="akim"></span></td>
+                                    <td></td>
                                     <td colspan="2">amper</td>
                                 </tr>
                                 <tr>
                                     <td>Sipir Sayısı(N)</td>
-                                    <td><span class="val" id="sipir_sayi"></span></td>
+                                    <td></td>
                                     <td colspan="2">sipir</td>
                                 </tr>
                                 <tr>
-                                    <td>Manyetik Kuvvet</td>
-                                    <td><span class="val" id="manyetik_moment"></span></td>
-                                    <td colspan="2">ampersarım<br>(Manyetomotor kuvvet)</td>
-                                </tr>
-                                <tr>
-                                    <td>Güç</td>
-                                    <td><span class="val" id="guc"></span></td>
-                                    <td colspan="2">Watt</td>
-                                </tr>
-                                <tr>
-                                    <td>Akım Yoğunluğu</td>
-                                    <td><span class="val" id="akim_yogunluk"></span></td>
-                                    <td colspan="2">A/mm<sup>2</sup></td>
+                                    <td>Manyetik moment</td>
+                                    <td></td>
+                                    <td colspan="2">mm</td>
                                 </tr>
                                 <tr>
                                     <td>Mu_0</td>
-                                    <td><span class="val" id="mu_0"></span></td>
-                                    <td colspan="2">H/m</td>
+                                    <td></td>
+                                    <td colspan="2" rowspan="2">H/m</td>
+                                </tr>
+                                <tr>
+                                    <td>Mu_r</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td>Balata Sürtünme Katsayısı</td>
+                                    <td colspan="3">0,6</td>
                                 </tr>
                                 <tr>
                                     <td>Ah1</td>
-                                    <td><span class="val" id="ah1"></span></td>
+                                    <td></td>
                                     <td>mm<sup>2</sup></td>
                                     <td>Küçük yüzey alanı</td>
                                 </tr>
                                 <tr>
                                     <td>Ah2</td>
-                                    <td><span class="val" id="ah2"></span></td>
+                                    <td></td>
                                     <td>mm<sup>2</sup></td>
                                     <td>Büyük yüzey alanı</td>
                                 </tr>
                                 <tr>
                                     <td>A1</td>
-                                    <td><span class="val" id="A1"></span></td>
+                                    <td></td>
                                     <td colspan="2" rowspan="2">mm<sup>2</sup></td>
                                 </tr>
                                 <tr>
                                     <td>A3</td>
-                                    <td><span class="val" id="A3"></span></td>
+                                    <td></td>
                                 </tr>
-                                <tr>
-                                    <td colspan="4" style="background-color: black;"></td>
-                                </tr>
+
                             </tbody>
                         </table>
                     </div>
@@ -186,137 +273,159 @@
                             </thead>
                             <tbody>
                                 <tr>
+                                    <td>Güç</td>
+                                    <td></td>
+                                    <td>Watt</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
                                     <td>Ref</td>
-                                    <td><span class="val" id="Ref"></span></td>
+                                    <td></td>
                                     <td>mm</td>
                                     <td>efektif yarıçap</td>
                                 </tr>
                                 <tr>
                                     <td>L1</td>
-                                    <td><span class="val" id="L1"></span></td>
+                                    <td></td>
                                     <td colspan="2" rowspan="2"> mm</td>
                                 </tr>
                                 <tr>
                                     <td>L2</td>
-                                    <td><span class="val" id="L2"></span></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td colspan="4" style="background-color: black;"></td>
                                 </tr>
                                 <tr>
                                     <td>B (min)</td>
-                                    <td><span class="val" id="kucuk_b_min"></span></td>
+                                    <td></td>
                                     <td rowspan="3">tesla</td>
                                     <td rowspan="3">Küçük Yüzey Akı Yoğunluğu</td>
                                 </tr>
                                 <tr>
                                     <td>B (max)</td>
-                                    <td><span class="val" id="kucuk_b_max"></span></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td>B (max_sat)</td>
-                                    <td><span class="val" id="kucuk_b_max_sat"></span></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td colspan="4" style="background-color: black;"></td>
                                 </tr>
                                 <tr>
                                     <td>B (min)</td>
-                                    <td><span class="val" id="buyuk_b_min"></span></td>
+                                    <td></td>
                                     <td rowspan="3">tesla</td>
                                     <td rowspan="3">Büyük Yüzey Akı Yoğunluğu</td>
                                 </tr>
                                 <tr>
                                     <td>B (max)</td>
-                                    <td><span class="val" id="buyuk_b_max"></span></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td>B (max_sat)</td>
-                                    <td><span class="val" id="buyuk_b_max_sat"></span></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td colspan="4" style="background-color: black; color: white;">Relüktanslar</td>
                                 </tr>
                                 <tr>
                                     <td>Rh1</td>
-                                    <td colspan="3"><span class="val" id="r_Rh1"></span></td>
+                                    <td colspan="3"></td>
                                 </tr>
                                 <tr>
                                     <td>Rh2</td>
-                                    <td colspan="3"><span class="val" id="r_Rh2"></span></td>
+                                    <td colspan="3"></td>
                                 </tr>
                                 <tr>
                                     <td>R1</td>
-                                    <td colspan="3"><span class="val" id="r_R1"></span></td>
+                                    <td colspan="3"></td>
                                 </tr>
                                 <tr>
                                     <td>R2</td>
-                                    <td colspan="3"><span class="val" id="r_R2"></span></td>
+                                    <td colspan="3"></td>
                                 </tr>
                                 <tr>
                                     <td>R3</td>
-                                    <td colspan="3"><span class="val" id="r_R3"></span></td>
+                                    <td colspan="3"></td>
                                 </tr>
                                 <tr>
                                     <td>R4</td>
-                                    <td colspan="3"><span class="val" id="r_R4"></span></td>
+                                    <td colspan="3"></td>
                                 </tr>
                                 <tr>
                                     <td>Rc</td>
-                                    <td colspan="3"><span class="val" id="r_Rc"></span></td>
+                                    <td colspan="3"></td>
                                 </tr>
                                 <tr>
                                     <td colspan="2">Fren <span style="color: red;">Kapalı</span> Konumda İken Toplam
                                         Relüktans</td>
-                                    <td colspan="2"><span class="val" id="kapali_reluktans"></span></td>
+                                    <td colspan="2"></td>
                                 </tr>
                                 <tr>
                                     <td colspan="2">Fren <span style="color: green;">Açık</span> Konumda İken Toplam
                                         Relüktans</td>
-                                    <td colspan="2"><span class="val" id="acik_reluktans"></span></td>
+                                    <td colspan="2"></td>
                                 </tr>
                                 <tr>
                                     <td colspan="4" style="background-color: black;"></td>
                                 </tr>
                                 <tr>
                                     <td>Akı (min)</td>
-                                    <td><span class="val" id="aki_min"></span></td>
+                                    <td></td>
                                     <td rowspan="2" colspan="2">wb</td>
                                 </tr>
                                 <tr>
                                     <td>Akı (max)</td>
-                                    <td><span class="val" id="aki_max"></span></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td colspan="4" style="background-color: black;"></td>
                                 </tr>
                                 <tr>
                                     <td>L(min)</td>
-                                    <td><span class="val" id="l_min"></span></td>
+                                    <td></td>
                                     <td rowspan="2" colspan="2">Endüktans</td>
                                 </tr>
                                 <tr>
                                     <td>L(max)</td>
-                                    <td><span class="val" id="l_max"></span></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td colspan="4" style="background-color: black;"></td>
                                 </tr>
                                 <tr>
                                     <td>F1 (max)</td>
-                                    <td><span class="val" id="f1_max"></span></td>
+                                    <td></td>
                                     <td rowspan="2" colspan="2">Newton</td>
                                 </tr>
                                 <tr>
                                     <td>F2 (max)</td>
-                                    <td><span class="val" id="f2_max"></span></td>
+                                    <td></td>
                                 </tr>
                                 <tr>
                                     <td>F toplam</td>
-                                    <td colspan="3"><span class="val" id="f_toplam"></span></td>
+                                    <td colspan="3"></td>
                                 </tr>
                                 <tr>
                                     <td colspan="4" style="background-color: black;"></td>
+                                </tr>
+                                <tr>
+                                    <td>Akı (min)</td>
+                                    <td></td>
+                                    <td rowspan="2" colspan="2">wb</td>
+                                </tr>
+                                <tr>
+                                    <td>Akı (max)</td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" style="background-color: black;"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"><mark>TORK</mark></td>
+                                    <td colspan="2"><mark><b>8,38</b></mark></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -325,20 +434,51 @@
             </div>
 
             <!-- Sağ taraf: Konva.js -->
-            <div class="col-md-6 full-height">
-                <div class="">
-                    <div class="row full-height">
-                        <div class="col-md-12">
-                            <div id="konva-container"></div>
-                        </div>
-                    </div>
-                
+            <div class="col-md-6 ">
+                <div id="konva-container"></div>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/konva@8.4.2/konva.min.js"></script>
-    <script src="model.js"></script>
+    <script>
+        // Konva.js Sahne ve Katman Oluşturma
+        const container = document.getElementById('konva-container');
+
+        const stage = new Konva.Stage({
+            container: 'konva-container',
+            width: container.offsetWidth,
+            height: container.offsetHeight,
+        });
+
+        const layer = new Konva.Layer();
+        stage.add(layer);
+
+        // Model Çizimi (Örnek: Dikdörtgen)
+        const rect = new Konva.Rect({
+            x: 50,
+            y: 50,
+            width: 500,
+            height: 500,
+            fill: 'blue',
+            stroke: 'black',
+            strokeWidth: 2,
+        });
+        layer.add(rect);
+
+        layer.draw();
+
+        // Dinamik Yeniden Boyutlandırma
+        window.addEventListener('resize', () => {
+            const containerWidth = container.offsetWidth;
+            const containerHeight = container.offsetHeight;
+
+            stage.width(containerWidth);
+            stage.height(containerHeight);
+            stage.draw();
+        });
+    </script>
 </body>
+
 </html>
