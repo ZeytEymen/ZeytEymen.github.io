@@ -82,7 +82,7 @@ document.querySelectorAll('input[type="number"]').forEach(input => {
     input.addEventListener('input', (e) => {
         const value = parseFloat(e.target.value);
         if (isNaN(value) || value <= 0) {
-            alert('Yanlış değer girildi');
+             dimensions[e.target.id] = 0;
         } else {
             dimensions[e.target.id] = value;
         }
