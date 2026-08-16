@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Yenileniyoruz — viliyimsi</title>
+<meta name="description" content="viliyimsi yeni bir tasarımla hazırlanıyor.">
+<meta name="robots" content="noindex, follow">
+
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+<link rel="shortcut icon" href="favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<meta name="theme-color" content="#ffffff">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="tr_TR">
+<meta property="og:site_name" content="viliyimsi">
+<meta property="og:title" content="Yenileniyoruz — viliyimsi">
+<meta property="og:description" content="viliyimsi yeni bir tasarımla hazırlanıyor.">
+<meta property="og:url" content="https://viliyimsi.com/coming-soon/">
+<meta property="og:image" content="https://viliyimsi.com/coming-soon/logo.png">
+
+
+<style>
+  :root {
+    --ground:     #FFFFFF;
+    --ink:        #1F1F1F;
+    --muted:      #6E6E6E;
+    --faint:      #A0A0A0;
+    --terracotta: #CE310C;
+
+    --f-ui:   Futura, "Avenir Next", "Century Gothic", "Trebuchet MS", ui-sans-serif, system-ui, sans-serif;
+    --f-body: "Iowan Old Style", Charter, Georgia, serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--f-ui);
+    font-weight: 300;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  a { color: inherit; text-decoration: none; }
+  ::selection { background: var(--ink); color: var(--ground); }
+  :focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+  img { display: block; max-width: 100%; }
+
+  .holding {
+    width: 100%;
+    max-width: 76rem;
+    margin: 0 auto;
+    padding: 4rem 2.5rem;
+  }
+
+  .logo { width: 8rem; height: auto; margin-bottom: 4rem; }
+
+  h1 {
+    font-family: var(--f-body);
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.005em;
+    margin: 0 0 1.25rem;
+    text-wrap: balance;
+  }
+
+  .note {
+    font-family: var(--f-body);
+    font-size: clamp(1.0625rem, 1.5vw, 1.1875rem);
+    line-height: 1.62;
+    color: var(--muted);
+    max-width: 42ch;
+    margin: 0;
+  }
+
+  .rule {
+    border: 0;
+    border-top: 2px solid var(--terracotta);
+    width: 3.5rem;
+    margin: 3rem 0 2rem;
+  }
+
+  .contact {
+    font-size: 0.9375rem;
+    letter-spacing: 0.01em;
+  }
+  .contact a {
+    border-bottom: 1px solid #E7E7E5;
+    padding-bottom: 0.1rem;
+    transition: border-color 0.25s ease;
+  }
+  .contact a:hover { border-color: var(--ink); }
+
+  .foot {
+    margin-top: 4.5rem;
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--faint);
+  }
+
+  @media (max-width: 760px) {
+    .holding { padding: 3rem 1.25rem; }
+    .logo { width: 6.5rem; margin-bottom: 3rem; }
+    .foot { margin-top: 3.5rem; }
+  }
+</style>
+</head>
+<body>
+
+  <main class="holding">
+
+    <img class="logo" src="logo.png" width="603" height="169" alt="viliyimsi">
+
+    <h1>Yenileniyoruz.</h1>
+
+    <p class="note">
+      Yeni site hazırlanıyor. Kısa süre içinde kitaplar ve projelerle
+      birlikte burada olacağız.
+    </p>
+
+    <hr class="rule">
+
+    <p class="contact">
+      Bu arada yazmak isterseniz:
+      <a href="mailto:hello@viliyimsi.com">hello@viliyimsi.com</a>
+    </p>
+
+    <p class="foot">© 2026 viliyimsi</p>
+
+  </main>
+
+</body>
+</html>

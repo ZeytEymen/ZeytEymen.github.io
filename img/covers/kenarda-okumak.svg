@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 300" width="200" height="300">
+  <rect width="200" height="300" fill="#1F3A34"/>
+  <rect x="18" y="18" width="164" height="264" fill="none" stroke="#C9A227" stroke-width="3"/>
+  <rect x="26" y="26" width="148" height="248" fill="none" stroke="#C9A227" stroke-width="1" opacity=".6"/>
+  <text x="100" y="132" text-anchor="middle" font-family="Futura, Avenir Next, sans-serif" font-size="24" letter-spacing="2" fill="#F2EFE6">KENARDA</text>
+  <text x="100" y="162" text-anchor="middle" font-family="Futura, Avenir Next, sans-serif" font-size="24" letter-spacing="2" fill="#F2EFE6">OKUMAK</text>
+  <text x="100" y="272" text-anchor="middle" font-family="Futura, Avenir Next, sans-serif" font-size="9" letter-spacing="2.4" fill="#F2EFE6" opacity=".75">VİLİYİMSİ</text>
+</svg>

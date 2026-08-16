@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 300" width="200" height="300">
+  <rect width="200" height="300" fill="#FBFBF7"/>
+  <g fill="#F2C230">
+    <circle cx="22" cy="24" r="7"/><circle cx="48" cy="24" r="7"/><circle cx="74" cy="24" r="7"/><circle cx="100" cy="24" r="7"/><circle cx="126" cy="24" r="7"/><circle cx="152" cy="24" r="7"/><circle cx="178" cy="24" r="7"/>
+    <circle cx="22" cy="52" r="7"/><circle cx="48" cy="52" r="7"/><circle cx="74" cy="52" r="7"/><circle cx="100" cy="52" r="7"/><circle cx="126" cy="52" r="7"/><circle cx="152" cy="52" r="7"/><circle cx="178" cy="52" r="7"/>
+    <circle cx="22" cy="220" r="7"/><circle cx="48" cy="220" r="7"/><circle cx="74" cy="220" r="7"/><circle cx="100" cy="220" r="7"/><circle cx="126" cy="220" r="7"/><circle cx="152" cy="220" r="7"/><circle cx="178" cy="220" r="7"/>
+    <circle cx="22" cy="248" r="7"/><circle cx="48" cy="248" r="7"/><circle cx="74" cy="248" r="7"/><circle cx="100" cy="248" r="7"/><circle cx="126" cy="248" r="7"/><circle cx="152" cy="248" r="7"/><circle cx="178" cy="248" r="7"/>
+  </g>
+  <text x="100" y="118" text-anchor="middle" font-family="Futura, Avenir Next, sans-serif" font-size="27" letter-spacing="4" fill="#1B1E1B">GEÇ</text>
+  <text x="100" y="158" text-anchor="middle" font-family="Futura, Avenir Next, sans-serif" font-size="27" letter-spacing="4" fill="#1B1E1B">KALAN</text>
+  <text x="100" y="198" text-anchor="middle" font-family="Futura, Avenir Next, sans-serif" font-size="27" letter-spacing="4" fill="#1B1E1B">OKUR</text>
+</svg>

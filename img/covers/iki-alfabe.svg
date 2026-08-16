@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 300" width="200" height="300">
+  <rect width="200" height="300" fill="#F4EDE2"/>
+  <rect x="0" y="86" width="200" height="2" fill="#D96A4A"/>
+  <rect x="0" y="214" width="200" height="2" fill="#D96A4A"/>
+  <rect x="150" y="0" width="2" height="300" fill="#D96A4A" opacity=".45"/>
+  <text x="100" y="140" text-anchor="middle" font-family="Futura, Avenir Next, sans-serif" font-size="30" letter-spacing="3" fill="#22303B">İKİ</text>
+  <text x="100" y="174" text-anchor="middle" font-family="Futura, Avenir Next, sans-serif" font-size="30" letter-spacing="3" fill="#22303B">ALFABE</text>
+  <text x="100" y="272" text-anchor="middle" font-family="Futura, Avenir Next, sans-serif" font-size="9" letter-spacing="2.4" fill="#22303B" opacity=".75">VİLİYİMSİ</text>
+</svg>

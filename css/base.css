@@ -1,0 +1,59 @@
+/* viliyimsi.com — reset ve temel tipografi */
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--f-ui);
+  font-weight: 300;
+  font-size: 1rem;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a { color: inherit; text-decoration: none; }
+
+img, svg { max-width: 100%; display: block; }
+
+::selection { background: var(--ink); color: var(--ground); }
+
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+
+/* ekran okuyucular için; görsel olarak gizli */
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* başlıklar */
+.page-title {
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  font-weight: 300;
+  letter-spacing: 0.01em;
+  margin: 0 0 1rem;
+  text-wrap: balance;
+  color: var(--ink);
+}
+
+.intro {
+  max-width: var(--measure);
+  color: var(--muted);
+  margin: 0 0 3.25rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

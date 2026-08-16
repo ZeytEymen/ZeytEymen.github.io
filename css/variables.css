@@ -1,0 +1,33 @@
+/* viliyimsi.com — tasarım değişkenleri
+   Tek temaya bağlı tasarım: sayfa her koşulda beyaz zemin üzerinde çalışır,
+   bu yüzden koyu tema geçersiz kılmaları bilerek yok. */
+
+:root {
+  /* renkler */
+  --ground:  #FFFFFF;
+  --ink:     #1F1F1F;
+  --soft:    #3E3E3E;
+  --muted:   #6E6E6E;
+  --faint:   #A0A0A0;
+  --rule:    #E7E7E5;
+
+  /* doku serisinden ölçülen renkler — sayfadaki tek renk aksanı */
+  --terracotta: #CE310C;
+  --cream:      #FDF9F6;
+
+  /* döşeme zemin tonları */
+  --tint-1: #EDEDEA;
+  --tint-2: #FBF1F0;
+  --tint-3: #EFEFF3;
+  --tint-4: #F2F0EB;
+  --tint-5: #EDF1EF;
+
+  /* tipografi
+     NOT: Laravel sürümünde bu yığınlar self-host edilen webfont'larla değişecek. */
+  --f-ui:   Futura, "Avenir Next", "Century Gothic", "Trebuchet MS", ui-sans-serif, system-ui, sans-serif;
+  --f-body: "Iowan Old Style", Charter, Georgia, serif;
+
+  /* ölçüler */
+  --page:    76rem;
+  --measure: 36rem;
+}
