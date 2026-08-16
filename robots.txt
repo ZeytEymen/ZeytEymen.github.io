@@ -1,4 +1,7 @@
+# Bu adres (zeyteymen.github.io) yalnizca onizleme kopyasidir.
+# Sayfalarda "noindex" etiketi var; tarayiciya izin veriyoruz ki
+# o etiketi gorup indekslemesin. Burayi Disallow ile kapatsak
+# Google sayfayi hic okuyamaz ve noindex'i goremezdi.
+
 User-agent: *
 Allow: /
-
-Sitemap: https://viliyimsi.com/sitemap.xml
